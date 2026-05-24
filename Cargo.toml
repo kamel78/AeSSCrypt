@@ -1,0 +1,8 @@
+[package]
+name = "timebench"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+libraries = {path = "./libs"}
+sha2 ="0.10"
