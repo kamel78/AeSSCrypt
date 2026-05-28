@@ -12,7 +12,7 @@ pub fn bench_aes_gcm_scaling() {
     let iterations = 500;
 
     // Message sizes in bytes (from 128B to 64KB)
-    let sizes = [128, 512, 1024, 4096, 16384, 65536];
+    let sizes = [256, 512, 1024, 4096, 16384, 65536, 65536 * 2, 65536 * 3, 65536 * 4, 65536 * 5, 65536 * 6, 65536 * 7, 65536 * 8, 65536 * 9, 65536 * 10, 65536 * 11, 65536 * 12, 65536 * 13, 65536 * 14, 65536 * 15, 65536 * 16];
 
     println!("\n=== AES-GCM Scaling Benchmark ===");
     println!("Size (B), AES128_avg_µs, AES256_avg_µs, Δrel(%)");
@@ -58,7 +58,7 @@ pub fn bench_aes_ccm_scaling() {
     let aad = b"Additional authenticated data";
     let iterations = 500;
     // Message sizes in bytes (from 128B to 64KB)
-    let sizes = [128, 512, 1024, 4096, 16384, 65536];
+    let sizes = [256, 512, 1024, 4096, 16384, 65536, 65536 * 2, 65536 * 3, 65536 * 4, 65536 * 5, 65536 * 6, 65536 * 7, 65536 * 8, 65536 * 9, 65536 * 10, 65536 * 11, 65536 * 12, 65536 * 13, 65536 * 14, 65536 * 15, 65536 * 16];
     println!("\n=== AES-CCM Scaling Benchmark ===");
     println!("Size (B), AES128_avg_µs, AES256_avg_µs, Δrel(%)");
     for &size in &sizes {
@@ -102,7 +102,7 @@ pub fn bench_aes_ocb_scaling() {
     let aad = b"Additional authenticated data";
     let iterations = 500;
     // Message sizes in bytes (from 128B to 64KB)
-    let sizes = [128, 512, 1024, 4096, 16384, 65536];
+    let sizes = [256, 512, 1024, 4096, 16384, 65536, 65536 * 2, 65536 * 3, 65536 * 4, 65536 * 5, 65536 * 6, 65536 * 7, 65536 * 8, 65536 * 9, 65536 * 10, 65536 * 11, 65536 * 12, 65536 * 13, 65536 * 14, 65536 * 15, 65536 * 16];
     println!("\n=== AES-OCB Scaling Benchmark ===");
     println!("Size (B), AES128_avg_µs, AES256_avg_µs, Δrel(%)");
     for &size in &sizes {
@@ -144,7 +144,7 @@ pub fn bench_aes_ocb_scaling() {
 pub fn bench_aes_aess_scaling() {
     let iterations = 500;
     // Message sizes in bytes (from 128B to 64KB)
-    let sizes = [128, 512, 1024, 4096, 16384, 65536];
+    let sizes = [256, 512, 1024, 4096, 16384, 65536, 65536 * 2, 65536 * 3, 65536 * 4, 65536 * 5, 65536 * 6, 65536 * 7, 65536 * 8, 65536 * 9, 65536 * 10, 65536 * 11, 65536 * 12, 65536 * 13, 65536 * 14, 65536 * 15, 65536 * 16];
     println!("\n=== AES-AESS Scaling Benchmark ===");
     println!("Size (B), AES128_avg_µs, AES256_avg_µs, Δrel(%)");
     for &size in &sizes {

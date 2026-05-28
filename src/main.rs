@@ -1,7 +1,31 @@
-use std::{io, time::Instant};
+use std::{io, process::exit, time::Instant};
 use libraries::{aes_ciphers::CipherName, aess::core::AeSSCipherCore, benchmarks::{ microbench_aes::microbench_aes, scalability_benchmarks::*, 
                              sensitivity_benchmarks::{TestParam, sensitivity_bench, tag_sensitivity}, 
-                             time_benchmarks::*}, params_generation::galois_arithmetic::GF128};
+                             time_benchmarks::*}, galois_arithmetic::GF128};
+
+pub fn threshold_bench(){
+    let mut data = Vec::<u8>::new();
+    data.resize(160000, 1);
+    let mut results_by_th:[f32;30]=[0.0;30];
+    let mut count=0;
+    let mut out = Vec::<GF128>::new();
+    let key = GF128::random();
+    let iv = GF128::random();    
+    for len in (10240..160000).step_by(1024){
+    count+=1;
+    for t in 2..18{
+                let mut st = AeSSCipherCore::new(&data,len, true, &mut out,t,CipherName::AES128);
+                st.set_key_scheme(&[key], &iv);
+                let start: Instant = Instant::now();
+                st.encrypt();
+                let duration = start.elapsed();
+                results_by_th[t]+=((len*1000000) as f32)/((duration.as_micros() as f32)*((1024*1024*1024) as f32));
+                }
+    }
+    for t in 2..18{ results_by_th[t]/=count as f32;
+    println!("t = {}: {:.3} GB/s",t,results_by_th[t]);
+}}
+                             
 pub fn basic_bench(){
     let mut data = Vec::<u8>::new();
     let mut out = Vec::<GF128>::new();
@@ -31,13 +55,14 @@ pub fn basic_bench(){
                            
 fn main(){
     // basic_bench();
+    // threshold_bench();
        
       loop {    println!("============================================================================");
                 println!("Please enter a choice (1, 2, or 3) for the following routines, or 4 to exit:"); 
                 println!("Please run in '--release' mode for accurate results.");
                 println!("============================================================================");
                 println!("(1)- Runtime bench-marking of several implemented schemes in 128bit level.");
-                println!("(2)- Runtime bench-marking of several implemented schemes in 1256bit level.");
+                println!("(2)- Runtime bench-marking of several implemented schemes in 256bit level.");
                 println!("(3)- Key and IV sensitivity benchmarking.");
                 println!("(4)- Tag and authentication sensitivity benchmarking.");
                 println!("(5)- Runtime scaling from 128bit to 256bit level.");

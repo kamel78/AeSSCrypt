@@ -1,6 +1,6 @@
 use std::fmt;
 use smallvec::SmallVec;
-use crate::galois_arithmetic::field::MAX_VECTOR_ELEMENTS;
+use crate::params_generation::galois_arithmetic::field::MAX_VECTOR_ELEMENTS;
 
 use super::{field::GF128, vector::GF128Vector};
 

@@ -262,6 +262,7 @@ pub fn decode_vector(&mut self, index: usize, alpha :&GF128, inv_beta_vector :&G
                 (self.key_materials.principal_dec_matrice,self.key_materials.secondary_dec_matrice) = 
                         self.key_materials.vender_matrix.invert_vandermonde_both(self.active_level.threshold);
                 let last_expo = if vectors_count %2 ==0 {vectors_count /2} else {(vectors_count/2)+1};       
+                let last_expo = vectors_count ;
                 let las_alpha = alpha.pow(last_expo);
                 let i_alpha = alpha.invert();
                 alpha = las_alpha;

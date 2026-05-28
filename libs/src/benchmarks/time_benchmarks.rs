@@ -1375,6 +1375,35 @@ pub fn bench_giftcofb_latency() {
     println!(" Average: {:.2} µs", avg as f64 / 1000.0);
     println!(" P95: {:.2} µs", p95 as f64 / 1000.0);
     println!(" P99: {:.2} µs", p99 as f64 / 1000.0);
+
+     // Measure decryption latency
+    let ciphertext_with_tag = giftcofb.encrypt(&nonce, aad, &plaintext);
+    let mut decrypt_latencies = Vec::with_capacity(iterations);
+    
+    for _ in 0..iterations {
+        let start = Instant::now();
+        let plaintext_decrypted = giftcofb.decrypt(&nonce, aad, &ciphertext_with_tag).unwrap();
+        let duration = start.elapsed();
+        decrypt_latencies.push(duration.as_nanos());
+        
+        std::hint::black_box(&plaintext_decrypted);
+    }
+    
+    decrypt_latencies.sort_unstable();
+    let dec_min = decrypt_latencies[0];
+    let dec_median = decrypt_latencies[iterations / 2];
+    let dec_avg: u128 = decrypt_latencies.iter().sum::<u128>() / iterations as u128;
+    let dec_p95 = decrypt_latencies[(iterations * 95) / 100];
+    // let dec_p99 = decrypt_latencies[(iterations * 99) / 100];
+    let dec_max = decrypt_latencies[iterations - 1];
+    
+    println!("\n Decryption (10KB) Latency:");
+    println!("   Min:     {:.2} µs", dec_min as f64 / 1000.0);
+    println!("   Median:  {:.2} µs", dec_median as f64 / 1000.0);
+    println!("   Average: {:.2} µs", dec_avg as f64 / 1000.0);
+    println!("   P95:     {:.2} µs", dec_p95 as f64 / 1000.0);
+    println!("   P99:     {:.2} µs", p99 as f64 / 1000.0);
+    println!("   Max:     {:.2} µs", dec_max as f64 / 1000.0);
 }
 
 
